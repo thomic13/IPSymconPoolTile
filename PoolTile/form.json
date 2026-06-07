@@ -1,0 +1,80 @@
+{
+  "elements": [
+    {
+      "type": "ExpansionPanel",
+      "caption": "Kompakte Kachel",
+      "items": [
+        { "type": "SelectVariable", "name": "FilterControlID", "caption": "Filterpumpensteuerung" },
+        { "type": "SelectVariable", "name": "FilterPressureID", "caption": "Filterdruck" },
+        { "type": "SelectVariable", "name": "ElectrolysisCurrentID", "caption": "Elektrolyse Strom" },
+        { "type": "SelectVariable", "name": "RedoxID", "caption": "Redox Sonde" },
+        { "type": "SelectVariable", "name": "PHID", "caption": "pH Sonde" },
+        { "type": "SelectVariable", "name": "PHTankID", "caption": "pH Tankinhalt" },
+        { "type": "SelectVariable", "name": "SkimmerTemperatureID", "caption": "Skimmer / Bodenablauf Temperatur" },
+        { "type": "SelectVariable", "name": "NozzleTemperatureID", "caption": "Einlaufduesen Temperatur" },
+        { "type": "SelectVariable", "name": "BackwashDaysID", "caption": "Tage seit Rueckspuelung" },
+        { "type": "SelectVariable", "name": "LastBackwashID", "caption": "Letztes Rueckspuelen am" }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Detailansicht - weitere Poolwerte",
+      "items": [
+        { "type": "SelectVariable", "name": "SolarValveControlID", "caption": "Solarventil Steuerung" },
+        { "type": "SelectVariable", "name": "SolarValvePositionID", "caption": "Solarventil Position" },
+        { "type": "SelectVariable", "name": "FilterPumpID", "caption": "Filterpumpe" },
+        { "type": "SelectVariable", "name": "ElectrolysisID", "caption": "Elektrolyse Status" },
+        { "type": "SelectVariable", "name": "AlgicideTankID", "caption": "Algizid Tankinhalt" },
+        { "type": "SelectVariable", "name": "SolarReturnTemperatureID", "caption": "Solarruecklauf Temperatur" },
+        { "type": "SelectVariable", "name": "CpuTemperatureID", "caption": "CPU Temperatur" },
+        { "type": "SelectVariable", "name": "FlowMeasurementID", "caption": "Durchfluss Messstrecke" }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Detailansicht - Licht und Roboter",
+      "items": [
+        { "type": "SelectVariable", "name": "LeftLightID", "caption": "Scheinwerfer links" },
+        { "type": "SelectVariable", "name": "LeftLightWhiteID", "caption": "Scheinwerfer links weiss" },
+        { "type": "SelectVariable", "name": "LeftLightRgbID", "caption": "Scheinwerfer links RGB" },
+        { "type": "SelectVariable", "name": "RightLightID", "caption": "Scheinwerfer rechts" },
+        { "type": "SelectVariable", "name": "RightLightWhiteID", "caption": "Scheinwerfer rechts weiss" },
+        { "type": "SelectVariable", "name": "RightLightRgbID", "caption": "Scheinwerfer rechts RGB" },
+        { "type": "SelectVariable", "name": "RobotID", "caption": "Poolroboter" },
+        { "type": "SelectVariable", "name": "RobotRuntimePresetID", "caption": "Roboter Laufzeit Vorgabe" },
+        { "type": "SelectVariable", "name": "RobotRuntimeRemainingID", "caption": "Roboter Laufzeit verbleibend" }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Grenzwerte",
+      "items": [
+        { "type": "NumberSpinner", "name": "PHGoodMin", "caption": "pH gut ab", "digits": 2, "minimum": 0, "maximum": 14 },
+        { "type": "NumberSpinner", "name": "PHGoodMax", "caption": "pH gut bis", "digits": 2, "minimum": 0, "maximum": 14 },
+        { "type": "NumberSpinner", "name": "PHWarnMin", "caption": "pH warnend ab", "digits": 2, "minimum": 0, "maximum": 14 },
+        { "type": "NumberSpinner", "name": "PHWarnMax", "caption": "pH warnend bis", "digits": 2, "minimum": 0, "maximum": 14 },
+        { "type": "NumberSpinner", "name": "RedoxGoodMin", "caption": "Redox gut ab", "suffix": "mV" },
+        { "type": "NumberSpinner", "name": "RedoxWarnMin", "caption": "Redox warnend ab", "suffix": "mV" },
+        { "type": "NumberSpinner", "name": "PressureWarnMax", "caption": "Filterdruck warnend ab", "digits": 2, "suffix": "mbar/bar" },
+        { "type": "NumberSpinner", "name": "PressureCriticalMax", "caption": "Filterdruck kritisch ab", "digits": 2, "suffix": "mbar/bar" },
+        { "type": "NumberSpinner", "name": "TankWarnMin", "caption": "Tank warnend unter", "digits": 1, "suffix": "%" },
+        { "type": "NumberSpinner", "name": "TankCriticalMin", "caption": "Tank kritisch unter", "digits": 1, "suffix": "%" },
+        { "type": "NumberSpinner", "name": "BackwashWarnDays", "caption": "Rueckspuelung warnend ab", "suffix": "Tage" },
+        { "type": "NumberSpinner", "name": "BackwashCriticalDays", "caption": "Rueckspuelung kritisch ab", "suffix": "Tage" }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Schalten",
+      "items": [
+        { "type": "CheckBox", "name": "AllowActions", "caption": "Schaltaktionen in der Detailansicht erlauben" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Label",
+      "caption": "Nicht konfigurierte Variablen werden in der Kachel automatisch ausgeblendet."
+    }
+  ]
+}

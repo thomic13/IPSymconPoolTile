@@ -1,0 +1,14 @@
+{
+  "id": "{48A7FF7B-309F-4F7F-A4DE-675B4A2F5A1E}",
+  "name": "PoolTile",
+  "type": 3,
+  "vendor": "Pool",
+  "aliases": [
+    "Pool Kachel"
+  ],
+  "url": "",
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "POOL"
+}

@@ -1,0 +1,317 @@
+<div class="pool-tile" data-view="compact">
+  <script src="/icons.js"></script>
+  <style>
+    .pool-tile {
+      --pool-bg: color-mix(in srgb, var(--card-color, #172331) 92%, #0bb5a5 8%);
+      --pool-panel: color-mix(in srgb, var(--card-color, #172331) 86%, #ffffff 8%);
+      --pool-text: var(--text-color, #f7fbff);
+      --pool-muted: color-mix(in srgb, var(--pool-text) 62%, transparent);
+      --pool-border: color-mix(in srgb, var(--pool-text) 18%, transparent);
+      --pool-good: #27d980;
+      --pool-warning: #f0c64a;
+      --pool-critical: #ff5d66;
+      --pool-neutral: #82b6ff;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      padding: 14px;
+      color: var(--pool-text);
+      background: var(--pool-bg);
+      font-family: inherit;
+      overflow: hidden;
+    }
+
+    .pool-tile * {
+      box-sizing: border-box;
+    }
+
+    .pool-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pool-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .pool-title strong {
+      font-size: 16px;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+
+    .pool-temperature {
+      font-size: 26px;
+      line-height: 1.05;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .pool-badge {
+      flex: 0 0 auto;
+      min-width: 54px;
+      padding: 6px 9px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 750;
+      background: var(--pool-neutral);
+      color: #08111c;
+    }
+
+    .pool-badge.good { background: var(--pool-good); }
+    .pool-badge.warning { background: var(--pool-warning); }
+    .pool-badge.critical { background: var(--pool-critical); color: #fff; }
+
+    .pool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      gap: 8px;
+    }
+
+    .pool-metric {
+      min-height: 58px;
+      padding: 9px;
+      border: 1px solid var(--pool-border);
+      border-radius: 8px;
+      background: var(--pool-panel);
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 7px;
+      align-items: center;
+    }
+
+    .pool-metric i {
+      font-size: 16px;
+      color: var(--pool-neutral);
+      text-align: center;
+    }
+
+    .pool-metric.good i { color: var(--pool-good); }
+    .pool-metric.warning i { color: var(--pool-warning); }
+    .pool-metric.critical i { color: var(--pool-critical); }
+
+    .pool-label {
+      color: var(--pool-muted);
+      font-size: 11px;
+      line-height: 1.15;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pool-value {
+      margin-top: 3px;
+      font-size: 15px;
+      line-height: 1.15;
+      font-weight: 720;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pool-section {
+      margin-top: 13px;
+    }
+
+    .pool-tile[data-view="compact"] .pool-section {
+      display: none !important;
+    }
+
+    .pool-section-title {
+      margin: 0 0 7px;
+      color: var(--pool-muted);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .pool-action {
+      width: 100%;
+      margin-top: 7px;
+      border: 1px solid var(--pool-border);
+      border-radius: 8px;
+      padding: 7px;
+      color: var(--pool-text);
+      background: color-mix(in srgb, var(--pool-panel) 80%, #000 20%);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .pool-color {
+      width: 100%;
+      height: 28px;
+      margin-top: 7px;
+      border: 1px solid var(--pool-border);
+      border-radius: 8px;
+      background: transparent;
+    }
+
+    .pool-empty {
+      padding: 12px;
+      border: 1px dashed var(--pool-border);
+      border-radius: 8px;
+      color: var(--pool-muted);
+      font-size: 12px;
+    }
+
+    @container (min-height: 430px) {
+      .pool-tile {
+        overflow: auto;
+      }
+    }
+  </style>
+
+  <div class="pool-header">
+    <div class="pool-title">
+      <strong data-bind="title">Pool</strong>
+      <span class="pool-temperature" data-bind="temperature"></span>
+    </div>
+    <div class="pool-badge" data-bind="badge">Status</div>
+  </div>
+
+  <div class="pool-grid" data-bind="compact"></div>
+  <div class="pool-section" data-bind-section="detail">
+    <div class="pool-section-title">Details</div>
+    <div class="pool-grid" data-bind="detail"></div>
+  </div>
+  <div class="pool-section" data-bind-section="lights">
+    <div class="pool-section-title">Licht</div>
+    <div class="pool-grid" data-bind="lights"></div>
+  </div>
+  <div class="pool-section" data-bind-section="robot">
+    <div class="pool-section-title">Poolroboter</div>
+    <div class="pool-grid" data-bind="robot"></div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    let payload = %%INITIAL_DATA%%;
+    const root = document.currentScript.previousElementSibling;
+
+    const iconClass = {
+      fan: 'fa-light fa-fan',
+      gauge: 'fa-light fa-gauge',
+      bolt: 'fa-light fa-bolt',
+      flask: 'fa-light fa-flask',
+      droplet: 'fa-light fa-droplet',
+      temperature: 'fa-light fa-temperature-half',
+      clock: 'fa-light fa-clock',
+      sun: 'fa-light fa-sun',
+      microchip: 'fa-light fa-microchip',
+      water: 'fa-light fa-water',
+      lightbulb: 'fa-light fa-lightbulb',
+      palette: 'fa-light fa-palette',
+      robot: 'fa-light fa-robot',
+      hourglass: 'fa-light fa-hourglass-half'
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
+    function metricHtml(metric) {
+      const icon = iconClass[metric.icon] || 'fa-light fa-circle-info';
+      const isDetailView = root.dataset.view === 'detail';
+      const action = payload.allowActions && isDetailView && metric.actionable ? actionHtml(metric) : '';
+      return `
+        <div class="pool-metric ${escapeHtml(metric.state)}">
+          <i class="${icon}"></i>
+          <div>
+            <div class="pool-label">${escapeHtml(metric.label)}</div>
+            <div class="pool-value">${escapeHtml(metric.formatted)}</div>
+            ${action}
+          </div>
+        </div>
+      `;
+    }
+
+    function actionHtml(metric) {
+      if (metric.kind === 'color') {
+        return `<input class="pool-color" type="color" data-action="${metric.id}" value="#000000" title="${escapeHtml(metric.label)}">`;
+      }
+
+      return `<button class="pool-action" type="button" data-action="${metric.id}" data-value="${metric.value ? 0 : 1}">Umschalten</button>`;
+    }
+
+    function renderGroup(name, items) {
+      const section = root.querySelector(`[data-bind-section="${name}"]`);
+      const target = root.querySelector(`[data-bind="${name}"]`);
+      if (!target) return;
+
+      if (!items || items.length === 0) {
+        if (section) section.style.display = 'none';
+        target.innerHTML = '';
+        return;
+      }
+
+      if (section) section.style.display = '';
+      target.innerHTML = items.map(metricHtml).join('');
+    }
+
+    function render(nextPayload) {
+      payload = typeof nextPayload === 'string' ? JSON.parse(nextPayload) : nextPayload;
+      root.querySelector('[data-bind="title"]').textContent = payload.title || 'Pool';
+      root.querySelector('[data-bind="temperature"]').textContent = payload.summary?.temperature || '';
+
+      const badge = root.querySelector('[data-bind="badge"]');
+      badge.textContent = payload.summary?.headline || 'Status';
+      badge.className = `pool-badge ${payload.summary?.state || 'neutral'}`;
+
+      renderGroup('compact', payload.compact);
+      renderGroup('detail', payload.detail);
+      renderGroup('lights', payload.lights);
+      renderGroup('robot', payload.robot);
+    }
+
+    function updateViewMode() {
+      const width = root.clientWidth || 0;
+      const height = root.clientHeight || 0;
+      const detailView = width >= 520 || height >= 420;
+      const nextView = detailView ? 'detail' : 'compact';
+
+      if (root.dataset.view !== nextView) {
+        root.dataset.view = nextView;
+        render(payload);
+      }
+    }
+
+    root.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-action]');
+      if (!button || !window.requestAction) return;
+      window.requestAction(`var:${button.dataset.action}`, Number(button.dataset.value));
+    });
+
+    root.addEventListener('change', (event) => {
+      const input = event.target.closest('input[type="color"][data-action]');
+      if (!input || !window.requestAction) return;
+      window.requestAction(`var:${input.dataset.action}`, parseInt(input.value.slice(1), 16));
+    });
+
+    window.handleMessage = render;
+    render(payload);
+    updateViewMode();
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(updateViewMode).observe(root);
+    } else {
+      window.addEventListener('resize', updateViewMode);
+    }
+  })();
+</script>
