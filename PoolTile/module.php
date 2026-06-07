@@ -117,14 +117,13 @@ class PoolTile extends IPSModuleStrict
         $compact = [
             $this->metric('FilterControlID', 'Filtersteuerung', 'status', 'fan'),
             $this->metric('FilterPressureID', 'Filterdruck', 'pressure', 'gauge'),
-            $this->metric('ElectrolysisCurrentID', 'Elektrolyse Strom', 'neutral', 'bolt'),
+            $this->metric('ElectrolysisCurrentID', 'Elektrolyse', 'neutral', 'bolt'),
             $this->metric('RedoxID', 'Redox', 'redox', 'flask'),
             $this->metric('PHID', 'pH', 'ph', 'flask'),
             $this->metric('PHTankID', 'pH Tank', 'tank', 'droplet'),
-            $this->metric('SkimmerTemperatureID', 'Skimmer/Bodenablauf', 'temperature', 'temperature'),
-            $this->metric('NozzleTemperatureID', 'Einlaufduesen', 'temperature', 'temperature'),
-            $this->metric('BackwashDaysID', 'Tage seit Rueckspuelung', 'backwash', 'clock'),
-            $this->metric('LastBackwashID', 'Letztes Rueckspuelen', 'neutral', 'clock')
+            $this->metric('SkimmerTemperatureID', 'Wasser', 'temperature', 'temperature'),
+            $this->metric('NozzleTemperatureID', 'Einlauf', 'temperature', 'temperature'),
+            $this->metric('BackwashDaysID', 'Rueckspuelung', 'backwash', 'clock')
         ];
 
         $detail = [
