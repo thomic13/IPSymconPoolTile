@@ -56,6 +56,9 @@ class PoolTile extends IPSModuleStrict
         $this->RegisterPropertyFloat('TankCriticalMin', 10);
         $this->RegisterPropertyInteger('BackwashWarnDays', 7);
         $this->RegisterPropertyInteger('BackwashCriticalDays', 14);
+        $this->RegisterPropertyBoolean('ShowInlineDetails', false);
+        $this->RegisterPropertyBoolean('ShowInlineLights', false);
+        $this->RegisterPropertyBoolean('ShowInlineRobot', false);
         $this->RegisterPropertyBoolean('AllowActions', false);
     }
 
@@ -169,6 +172,11 @@ class PoolTile extends IPSModuleStrict
             'title' => 'Pool',
             'summary' => $this->buildSummary(),
             'allowActions' => $this->ReadPropertyBoolean('AllowActions'),
+            'inlineSections' => [
+                'detail' => $this->ReadPropertyBoolean('ShowInlineDetails'),
+                'lights' => $this->ReadPropertyBoolean('ShowInlineLights'),
+                'robot' => $this->ReadPropertyBoolean('ShowInlineRobot')
+            ],
             'compact' => array_values(array_filter($compact)),
             'detail' => array_values(array_filter($detail)),
             'lights' => array_values(array_filter($lights)),

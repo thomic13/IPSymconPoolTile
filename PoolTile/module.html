@@ -293,7 +293,7 @@
       const target = root.querySelector(`[data-bind="${name}"]`);
       if (!target) return;
 
-      if (!items || items.length === 0) {
+      if (!payload.inlineSections?.[name] || !items || items.length === 0) {
         if (section) section.style.display = 'none';
         target.innerHTML = '';
         return;

@@ -65,6 +65,15 @@
     },
     {
       "type": "ExpansionPanel",
+      "caption": "Grosse Kachel",
+      "items": [
+        { "type": "CheckBox", "name": "ShowInlineDetails", "caption": "Pool-Detailwerte beim Groesserziehen anzeigen" },
+        { "type": "CheckBox", "name": "ShowInlineLights", "caption": "Lichtwerte beim Groesserziehen anzeigen" },
+        { "type": "CheckBox", "name": "ShowInlineRobot", "caption": "Poolroboter beim Groesserziehen anzeigen" }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
       "caption": "Schalten",
       "items": [
         { "type": "CheckBox", "name": "AllowActions", "caption": "Schaltaktionen in der Detailansicht erlauben" }
