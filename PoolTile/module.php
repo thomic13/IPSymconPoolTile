@@ -34,6 +34,8 @@ class PoolTile extends IPSModuleStrict
         'RobotRuntimeRemainingID'
     ];
 
+    private const DETAIL_LINK_PREFIX = 'PoolTileDetail';
+
     public function Create(): void
     {
         parent::Create();
@@ -69,6 +71,8 @@ class PoolTile extends IPSModuleStrict
                 $this->RegisterMessage($variableID, VM_UPDATE);
             }
         }
+
+        $this->syncDetailLinks();
     }
 
     public function MessageSink(int $TimeStamp, int $SenderID, int $Message, array $Data): void
@@ -123,7 +127,7 @@ class PoolTile extends IPSModuleStrict
             $this->metric('PHTankID', 'pH Tank', 'tank', 'droplet'),
             $this->metric('SkimmerTemperatureID', 'Wasser', 'temperature', 'temperature'),
             $this->metric('NozzleTemperatureID', 'Einlauf', 'temperature', 'temperature'),
-            $this->metric('BackwashDaysID', 'Letzte Rueckspuelung', 'backwash', 'clock')
+            $this->metric('BackwashDaysID', 'Letzte Ruecksp.', 'backwash', 'clock')
         ];
 
         $detail = [
@@ -304,5 +308,72 @@ class PoolTile extends IPSModuleStrict
     private function isValidObjectID(int $objectID): bool
     {
         return $objectID > 0 && IPS_ObjectExists($objectID);
+    }
+
+    private function syncDetailLinks(): void
+    {
+        $targets = [
+            'SolarValveControlID' => 'Solarventil Steuerung',
+            'SolarValvePositionID' => 'Solarventil Position',
+            'FilterPumpID' => 'Filterpumpe',
+            'FilterPressureID' => 'Filterdruck',
+            'ElectrolysisID' => 'Elektrolyse',
+            'ElectrolysisCurrentID' => 'Elektrolyse Strom',
+            'RedoxID' => 'Redox Sonde',
+            'PHID' => 'pH Sonde',
+            'PHTankID' => 'pH Tankinhalt',
+            'AlgicideTankID' => 'Algizid Tankinhalt',
+            'SkimmerTemperatureID' => 'Skimmer / Bodenablauf',
+            'NozzleTemperatureID' => 'Einlaufduesen',
+            'SolarReturnTemperatureID' => 'Solarruecklauf',
+            'CpuTemperatureID' => 'CPU Temp',
+            'FlowMeasurementID' => 'Durchfluss Messstrecke',
+            'LastBackwashID' => 'Letztes Rueckspuelen am',
+            'BackwashDaysID' => 'Tage seit Rueckspuelung',
+            'LeftLightID' => 'Scheinwerfer links',
+            'LeftLightWhiteID' => 'Scheinwerfer links weiss',
+            'LeftLightRgbID' => 'Scheinwerfer links RGB',
+            'RightLightID' => 'Scheinwerfer rechts',
+            'RightLightWhiteID' => 'Scheinwerfer rechts weiss',
+            'RightLightRgbID' => 'Scheinwerfer rechts RGB',
+            'RobotID' => 'Poolroboter',
+            'RobotRuntimePresetID' => 'Roboter Laufzeit Vorgabe',
+            'RobotRuntimeRemainingID' => 'Roboter Laufzeit verbleibend'
+        ];
+
+        $usedIdents = [];
+        $position = 0;
+
+        foreach ($targets as $property => $label) {
+            $targetID = $this->ReadPropertyInteger($property);
+            if (!$this->isValidObjectID($targetID)) {
+                continue;
+            }
+
+            $ident = self::DETAIL_LINK_PREFIX . $property;
+            $usedIdents[] = $ident;
+            $linkID = @$this->GetIDForIdent($ident);
+
+            if ($linkID === false) {
+                $linkID = IPS_CreateLink();
+                IPS_SetParent($linkID, $this->InstanceID);
+                IPS_SetIdent($linkID, $ident);
+            }
+
+            IPS_SetName($linkID, $label);
+            IPS_SetPosition($linkID, $position++);
+            IPS_SetLinkTargetID($linkID, $targetID);
+        }
+
+        foreach (IPS_GetChildrenIDs($this->InstanceID) as $childID) {
+            $object = IPS_GetObject($childID);
+            if ($object['ObjectType'] !== 6 || !str_starts_with($object['ObjectIdent'], self::DETAIL_LINK_PREFIX)) {
+                continue;
+            }
+
+            if (!in_array($object['ObjectIdent'], $usedIdents, true)) {
+                IPS_DeleteLink($childID);
+            }
+        }
     }
 }
