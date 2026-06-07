@@ -13,7 +13,8 @@
       --pool-neutral: #1976d2;
       box-sizing: border-box;
       width: 100%;
-      min-height: 360px;
+      height: 100%;
+      min-height: 0;
       padding: 14px;
       color: var(--pool-text);
       background: linear-gradient(180deg, #e7f7f4 0%, #eef9f6 100%);
@@ -156,7 +157,7 @@
     }
 
     .pool-tile[data-view="detail"] {
-      min-height: 640px;
+      min-height: 520px;
       padding: 20px;
       overflow: auto;
     }
@@ -336,7 +337,7 @@
     function updateViewMode() {
       const width = root.clientWidth || 0;
       const height = root.clientHeight || 0;
-      const detailView = width >= 900 || height >= 650;
+      const detailView = width >= 900 && height >= 650;
       const nextView = detailView ? 'detail' : 'compact';
 
       if (root.dataset.view !== nextView) {

@@ -123,7 +123,7 @@ class PoolTile extends IPSModuleStrict
             $this->metric('PHTankID', 'pH Tank', 'tank', 'droplet'),
             $this->metric('SkimmerTemperatureID', 'Wasser', 'temperature', 'temperature'),
             $this->metric('NozzleTemperatureID', 'Einlauf', 'temperature', 'temperature'),
-            $this->metric('BackwashDaysID', 'Rueckspuelung', 'backwash', 'clock')
+            $this->metric('BackwashDaysID', 'Letzte Rueckspuelung', 'backwash', 'clock')
         ];
 
         $detail = [
