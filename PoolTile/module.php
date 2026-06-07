@@ -181,7 +181,7 @@ class PoolTile extends IPSModuleStrict
         }
 
         $value = GetValue($variableID);
-        $formatted = GetValueFormatted($variableID);
+        $formatted = $this->formatValue($kind, $value, GetValueFormatted($variableID));
 
         return [
             'id' => $variableID,
@@ -193,6 +193,19 @@ class PoolTile extends IPSModuleStrict
             'icon' => $icon,
             'actionable' => $actionable
         ];
+    }
+
+    private function formatValue(string $kind, mixed $value, string $formatted): string
+    {
+        if (preg_match('/%\d*(?:\.\d+)?[a-z]/i', $formatted) !== 1) {
+            return $formatted;
+        }
+
+        if ($kind === 'backwash' && is_numeric($value)) {
+            return sprintf('%d Tage', (int) $value);
+        }
+
+        return is_scalar($value) ? (string) $value : '';
     }
 
     private function buildSummary(): array

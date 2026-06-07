@@ -5,11 +5,11 @@
       --pool-bg: #eaf7f5;
       --pool-panel: #ffffff;
       --pool-text: #102431;
-      --pool-muted: #61717c;
-      --pool-border: #cfe2df;
-      --pool-good: #27d980;
-      --pool-warning: #f0c64a;
-      --pool-critical: #ff5d66;
+      --pool-muted: #667884;
+      --pool-border: #c8dfdc;
+      --pool-good: #24cf79;
+      --pool-warning: #e4b72f;
+      --pool-critical: #e94d5c;
       --pool-neutral: #1976d2;
       box-sizing: border-box;
       width: 100%;
@@ -17,7 +17,7 @@
       min-height: 100%;
       padding: 14px;
       color: var(--pool-text);
-      background: var(--pool-bg);
+      background: linear-gradient(180deg, #e7f7f4 0%, #eef9f6 100%);
       font-family: inherit;
       overflow: hidden;
     }
@@ -26,72 +26,97 @@
       box-sizing: border-box;
     }
 
-    .pool-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
+    .pool-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
       margin-bottom: 12px;
     }
 
     .pool-title {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .pool-title strong {
-      font-size: 16px;
-      line-height: 1.05;
-      font-weight: 700;
+      color: var(--pool-muted);
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1;
+      text-transform: uppercase;
     }
 
     .pool-temperature {
-      font-size: 26px;
-      line-height: 1.05;
-      font-weight: 750;
+      margin-top: 3px;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 800;
       white-space: nowrap;
     }
 
     .pool-badge {
-      flex: 0 0 auto;
-      min-width: 54px;
-      padding: 6px 9px;
+      min-width: 58px;
+      padding: 7px 10px;
       border-radius: 8px;
       text-align: center;
       font-size: 12px;
-      font-weight: 750;
+      font-weight: 800;
       background: var(--pool-neutral);
-      color: #08111c;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(16, 36, 49, 0.12);
     }
 
-    .pool-badge.good { background: var(--pool-good); }
-    .pool-badge.warning { background: var(--pool-warning); }
-    .pool-badge.critical { background: var(--pool-critical); color: #fff; }
+    .pool-badge.good { background: var(--pool-good); color: #07180f; }
+    .pool-badge.warning { background: var(--pool-warning); color: #241b02; }
+    .pool-badge.critical { background: var(--pool-critical); }
+
+    .pool-primary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .pool-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+      gap: 7px;
+    }
 
     .pool-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(142px, 1fr));
       gap: 8px;
     }
 
     .pool-metric {
-      min-height: 58px;
-      padding: 9px;
+      min-height: 60px;
+      padding: 10px;
       border: 1px solid var(--pool-border);
       border-radius: 8px;
-      background: var(--pool-panel);
-      box-shadow: 0 1px 2px rgba(16, 36, 49, 0.06);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 1px 2px rgba(16, 36, 49, 0.08);
       display: grid;
       grid-template-columns: 22px minmax(0, 1fr);
-      gap: 7px;
+      gap: 8px;
       align-items: center;
     }
 
+    .pool-primary .pool-metric {
+      min-height: 68px;
+      border-color: rgba(25, 118, 210, 0.18);
+    }
+
+    .pool-strip .pool-metric {
+      min-height: 50px;
+      padding: 8px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .pool-strip .pool-metric i {
+      display: none;
+    }
+
     .pool-metric i {
-      font-size: 16px;
       color: var(--pool-neutral);
+      font-size: 16px;
       text-align: center;
     }
 
@@ -102,7 +127,7 @@
     .pool-label {
       color: var(--pool-muted);
       font-size: 11px;
-      line-height: 1.15;
+      line-height: 1.1;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -110,20 +135,33 @@
 
     .pool-value {
       margin-top: 3px;
-      font-size: 15px;
-      line-height: 1.15;
-      font-weight: 720;
+      color: var(--pool-text);
+      font-size: 16px;
+      line-height: 1.05;
+      font-weight: 800;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
+    .pool-strip .pool-value {
+      font-size: 14px;
+    }
+
     .pool-section {
-      margin-top: 13px;
+      margin-top: 14px;
     }
 
     .pool-tile[data-view="compact"] .pool-section {
       display: none !important;
+    }
+
+    .pool-tile[data-view="detail"] {
+      overflow: auto;
+    }
+
+    .pool-tile[data-view="detail"] .pool-strip {
+      margin-bottom: 2px;
     }
 
     .pool-section-title {
@@ -131,7 +169,7 @@
       color: var(--pool-muted);
       font-size: 12px;
       line-height: 1;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
     }
 
@@ -142,7 +180,7 @@
       border-radius: 8px;
       padding: 7px;
       color: var(--pool-text);
-      background: #f2f7f8;
+      background: #f3f8f8;
       font: inherit;
       font-size: 12px;
       cursor: pointer;
@@ -156,31 +194,19 @@
       border-radius: 8px;
       background: transparent;
     }
-
-    .pool-empty {
-      padding: 12px;
-      border: 1px dashed var(--pool-border);
-      border-radius: 8px;
-      color: var(--pool-muted);
-      font-size: 12px;
-    }
-
-    @container (min-height: 430px) {
-      .pool-tile {
-        overflow: auto;
-      }
-    }
   </style>
 
-  <div class="pool-header">
-    <div class="pool-title">
-      <strong data-bind="title">Pool</strong>
-      <span class="pool-temperature" data-bind="temperature"></span>
+  <div class="pool-hero">
+    <div>
+      <div class="pool-title" data-bind="title">Pool</div>
+      <div class="pool-temperature" data-bind="temperature"></div>
     </div>
     <div class="pool-badge" data-bind="badge">Status</div>
   </div>
 
-  <div class="pool-grid" data-bind="compact"></div>
+  <div class="pool-primary" data-bind="compactPrimary"></div>
+  <div class="pool-strip" data-bind="compactStrip"></div>
+
   <div class="pool-section" data-bind-section="detail">
     <div class="pool-section-title">Details</div>
     <div class="pool-grid" data-bind="detail"></div>
@@ -217,6 +243,8 @@
       hourglass: 'fa-light fa-hourglass-half'
     };
 
+    const primaryLabels = new Set(['Filtersteuerung', 'Filterdruck', 'Redox', 'pH']);
+
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;',
@@ -231,6 +259,7 @@
       const icon = iconClass[metric.icon] || 'fa-light fa-circle-info';
       const isDetailView = root.dataset.view === 'detail';
       const action = payload.allowActions && isDetailView && metric.actionable ? actionHtml(metric) : '';
+
       return `
         <div class="pool-metric ${escapeHtml(metric.state)}">
           <i class="${icon}"></i>
@@ -251,6 +280,12 @@
       return `<button class="pool-action" type="button" data-action="${metric.id}" data-value="${metric.value ? 0 : 1}">Umschalten</button>`;
     }
 
+    function renderMetricList(bindName, items) {
+      const target = root.querySelector(`[data-bind="${bindName}"]`);
+      if (!target) return;
+      target.innerHTML = (items || []).map(metricHtml).join('');
+    }
+
     function renderGroup(name, items) {
       const section = root.querySelector(`[data-bind-section="${name}"]`);
       const target = root.querySelector(`[data-bind="${name}"]`);
@@ -266,6 +301,22 @@
       target.innerHTML = items.map(metricHtml).join('');
     }
 
+    function renderCompact(items) {
+      const primary = [];
+      const strip = [];
+
+      (items || []).forEach((metric) => {
+        if (primaryLabels.has(metric.label) && primary.length < 4) {
+          primary.push(metric);
+        } else {
+          strip.push(metric);
+        }
+      });
+
+      renderMetricList('compactPrimary', primary);
+      renderMetricList('compactStrip', strip);
+    }
+
     function render(nextPayload) {
       payload = typeof nextPayload === 'string' ? JSON.parse(nextPayload) : nextPayload;
       root.querySelector('[data-bind="title"]').textContent = payload.title || 'Pool';
@@ -275,7 +326,7 @@
       badge.textContent = payload.summary?.headline || 'Status';
       badge.className = `pool-badge ${payload.summary?.state || 'neutral'}`;
 
-      renderGroup('compact', payload.compact);
+      renderCompact(payload.compact);
       renderGroup('detail', payload.detail);
       renderGroup('lights', payload.lights);
       renderGroup('robot', payload.robot);
@@ -284,7 +335,7 @@
     function updateViewMode() {
       const width = root.clientWidth || 0;
       const height = root.clientHeight || 0;
-      const detailView = width >= 520 || height >= 420;
+      const detailView = width >= 760 && height >= 620;
       const nextView = detailView ? 'detail' : 'compact';
 
       if (root.dataset.view !== nextView) {
