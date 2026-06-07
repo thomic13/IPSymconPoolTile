@@ -98,6 +98,18 @@
       align-items: center;
     }
 
+    .pool-metric.warning {
+      border-color: rgba(228, 183, 47, 0.72);
+      background: #fff9df;
+      box-shadow: inset 4px 0 0 var(--pool-warning), 0 2px 5px rgba(120, 89, 0, 0.12);
+    }
+
+    .pool-metric.critical {
+      border-color: rgba(233, 77, 92, 0.72);
+      background: #fff0f2;
+      box-shadow: inset 4px 0 0 var(--pool-critical), 0 2px 7px rgba(140, 28, 40, 0.14);
+    }
+
     .pool-primary .pool-metric {
       min-height: 68px;
       border-color: rgba(25, 118, 210, 0.18);
@@ -123,6 +135,14 @@
     .pool-metric.good i { color: var(--pool-good); }
     .pool-metric.warning i { color: var(--pool-warning); }
     .pool-metric.critical i { color: var(--pool-critical); }
+
+    .pool-metric.warning .pool-value {
+      color: #7a5800;
+    }
+
+    .pool-metric.critical .pool-value {
+      color: #a51f30;
+    }
 
     .pool-label {
       color: var(--pool-muted);
