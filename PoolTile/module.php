@@ -14,7 +14,6 @@ class PoolTile extends IPSModuleStrict
         'SkimmerTemperatureID',
         'NozzleTemperatureID',
         'BackwashDaysID',
-        'LastBackwashID',
         'SolarValveControlID',
         'SolarValvePositionID',
         'FilterPumpID',
@@ -154,7 +153,6 @@ class PoolTile extends IPSModuleStrict
             $this->metric('SolarReturnTemperatureID', 'Solarruecklauf', 'temperature', 'temperature'),
             $this->metric('CpuTemperatureID', 'CPU Temp', 'neutral', 'microchip'),
             $this->metric('FlowMeasurementID', 'Durchfluss Messstrecke', 'neutral', 'water'),
-            $this->metric('LastBackwashID', 'Letztes Rueckspuelen am', 'neutral', 'clock'),
             $this->metric('BackwashDaysID', 'Tage seit Rueckspuelung', 'backwash', 'clock')
         ];
 
@@ -364,7 +362,6 @@ class PoolTile extends IPSModuleStrict
             'SolarReturnTemperatureID' => 'Solarruecklauf',
             'CpuTemperatureID' => 'CPU Temp',
             'FlowMeasurementID' => 'Durchfluss Messstrecke',
-            'LastBackwashID' => 'Letztes Rueckspuelen am',
             'BackwashDaysID' => 'Tage seit Rueckspuelung',
             'LeftLightID' => 'Scheinwerfer links',
             'LeftLightWhiteID' => 'Scheinwerfer links weiss',

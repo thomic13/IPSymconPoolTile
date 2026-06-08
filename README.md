@@ -57,7 +57,6 @@ Diese Variablen werden fuer die eigentliche Pool-Statuskachel verwendet:
 | Skimmer / Bodenablauf Temperatur | Haupt-/Wassertemperatur |
 | Einlaufduesen Temperatur | Temperatur am Einlauf |
 | Tage seit Rueckspuelung | Anzahl Tage seit der letzten Rueckspuelung |
-| Letztes Rueckspuelen am | Datum/Uhrzeit fuer die Detailansicht |
 
 Nicht gesetzte Variablen werden nicht angezeigt.
 
