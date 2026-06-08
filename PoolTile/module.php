@@ -52,6 +52,11 @@ class PoolTile extends IPSModuleStrict
         $this->RegisterPropertyInteger('RedoxWarnMin', 650);
         $this->RegisterPropertyFloat('PressureWarnMax', 600);
         $this->RegisterPropertyFloat('PressureCriticalMax', 900);
+        $this->RegisterPropertyFloat('ElectrolysisIgnoreMax', 100);
+        $this->RegisterPropertyFloat('ElectrolysisWarnMin', 6000);
+        $this->RegisterPropertyFloat('ElectrolysisGoodMin', 6500);
+        $this->RegisterPropertyFloat('ElectrolysisGoodMax', 9500);
+        $this->RegisterPropertyFloat('ElectrolysisWarnMax', 10000);
         $this->RegisterPropertyFloat('TankWarnMin', 25);
         $this->RegisterPropertyFloat('TankCriticalMin', 10);
         $this->RegisterPropertyInteger('BackwashWarnDays', 7);
@@ -124,7 +129,7 @@ class PoolTile extends IPSModuleStrict
         $compact = [
             $this->metric('FilterControlID', 'Filtersteuerung', 'status', 'fan'),
             $this->metric('FilterPressureID', 'Filterdruck', 'pressure', 'gauge'),
-            $this->metric('ElectrolysisCurrentID', 'Elektrolyse', 'neutral', 'bolt'),
+            $this->metric('ElectrolysisCurrentID', 'Elektrolyse', 'electrolysisCurrent', 'bolt'),
             $this->metric('RedoxID', 'Redox', 'redox', 'flask'),
             $this->metric('PHID', 'pH', 'ph', 'flask'),
             $this->metric('PHTankID', 'pH Tank', 'tank', 'droplet'),
@@ -139,7 +144,7 @@ class PoolTile extends IPSModuleStrict
             $this->metric('FilterPumpID', 'Filterpumpe', 'status', 'fan'),
             $this->metric('FilterPressureID', 'Filterdruck', 'pressure', 'gauge'),
             $this->metric('ElectrolysisID', 'Elektrolyse', 'status', 'bolt'),
-            $this->metric('ElectrolysisCurrentID', 'Elektrolyse Strom', 'neutral', 'bolt'),
+            $this->metric('ElectrolysisCurrentID', 'Elektrolyse Strom', 'electrolysisCurrent', 'bolt'),
             $this->metric('RedoxID', 'Redox Sonde', 'redox', 'flask'),
             $this->metric('PHID', 'pH Sonde', 'ph', 'flask'),
             $this->metric('PHTankID', 'pH Tankinhalt', 'tank', 'droplet'),
@@ -225,11 +230,15 @@ class PoolTile extends IPSModuleStrict
         $ph = $this->metric('PHID', 'pH', 'ph', 'flask');
         $redox = $this->metric('RedoxID', 'Redox', 'redox', 'flask');
         $pressure = $this->metric('FilterPressureID', 'Filterdruck', 'pressure', 'gauge');
+        $electrolysis = $this->metric('ElectrolysisCurrentID', 'Elektrolyse', 'electrolysisCurrent', 'bolt');
+        $backwash = $this->metric('BackwashDaysID', 'Rueckspuelung', 'backwash', 'clock');
 
         $states = array_filter([
             $ph['state'] ?? null,
             $redox['state'] ?? null,
-            $pressure['state'] ?? null
+            $pressure['state'] ?? null,
+            $electrolysis['state'] ?? null,
+            $backwash['state'] ?? null
         ]);
 
         $overall = 'good';
@@ -278,6 +287,25 @@ class PoolTile extends IPSModuleStrict
                 return 'warning';
             }
             return 'good';
+        }
+
+        if ($kind === 'electrolysisCurrent' && $numeric !== null) {
+            if ($numeric <= $this->ReadPropertyFloat('ElectrolysisIgnoreMax')) {
+                return 'neutral';
+            }
+            if ($numeric < $this->ReadPropertyFloat('ElectrolysisWarnMin')) {
+                return 'critical';
+            }
+            if ($numeric < $this->ReadPropertyFloat('ElectrolysisGoodMin')) {
+                return 'warning';
+            }
+            if ($numeric <= $this->ReadPropertyFloat('ElectrolysisGoodMax')) {
+                return 'good';
+            }
+            if ($numeric <= $this->ReadPropertyFloat('ElectrolysisWarnMax')) {
+                return 'warning';
+            }
+            return 'critical';
         }
 
         if ($kind === 'tank' && $numeric !== null) {
